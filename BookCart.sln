@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookCart.Server", "BookCart.Server\BookCart.Server.csproj", "{651F49D8-A679-4F90-8236-297C57734AD2}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "bookcart.client", "bookcart.client\bookcart.client.esproj", "{9D35553B-2D9E-4500-9C38-DEDD97387700}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{651F49D8-A679-4F90-8236-297C57734AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651F49D8-A679-4F90-8236-297C57734AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651F49D8-A679-4F90-8236-297C57734AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651F49D8-A679-4F90-8236-297C57734AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D35553B-2D9E-4500-9C38-DEDD97387700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D35553B-2D9E-4500-9C38-DEDD97387700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D35553B-2D9E-4500-9C38-DEDD97387700}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9D35553B-2D9E-4500-9C38-DEDD97387700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D35553B-2D9E-4500-9C38-DEDD97387700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D35553B-2D9E-4500-9C38-DEDD97387700}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B168D28-B81F-4ACF-9CA6-7D094001E6E4}
+	EndGlobalSection
+EndGlobal
