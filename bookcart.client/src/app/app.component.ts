@@ -14,6 +14,8 @@ interface WeatherForecast {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
+  title = 'bookcart.client';
+
   public forecasts: WeatherForecast[] = [];
 
   constructor(private http: HttpClient) {}
@@ -33,5 +35,4 @@ export class AppComponent implements OnInit {
     );
   }
 
-  title = 'bookcart.client';
 }
