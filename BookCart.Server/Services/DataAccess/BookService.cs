@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookCart.Server.Services.DataAccess
 {
-    public class BookService: IBookService
+    public class BookService : IBookService
     {
 
         readonly BookCartDBContext _dbContext;
@@ -90,10 +90,14 @@ namespace BookCart.Server.Services.DataAccess
             try
             {
                 Book book = _dbContext.Books.Find(bookId);
-                _dbContext.Books.Remove(book);
-                _dbContext.SaveChanges();
+                if (book != null)
+                {
+                    _dbContext.Books.Remove(book);
+                    _dbContext.SaveChanges();
 
-                return (book.CoverFileName);
+                    return (book.CoverFileName);
+                }
+                else return "Book Not Found";
             }
             catch
             {

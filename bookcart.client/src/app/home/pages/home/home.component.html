@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div class="row flex-xl-nowrap">
+    <div class="col-md-3">
+        <app-book-filter [category]="category"></app-book-filter>
+    </div>
+
+    <div class="col">
+        <div class="card" *ngIf="books && books.length > 0">
+            <div class="" *ngFor="let book of books">
+                <app-book-card [book]="book"></app-book-card>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+using BookCart.Server.Common;
 using BookCart.Server.Context;
 using BookCart.Server.Services.DataAccess;
 using BookCart.Server.Services.Interfaces;
@@ -17,6 +18,28 @@ builder.Services.AddDbContext<BookCartDBContext>(opc =>
     opc.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Configurar CORS
+IConfigurationSection appSettingsSection = builder.Configuration.GetSection("ApplicationSettings");
+builder.Services.Configure<ApplicationSettings>(appSettingsSection);
+
+ApplicationSettings? appSettings = appSettingsSection.Get<ApplicationSettings>();
+string clientUrl = appSettings!.Client_Url;
+
+string corsReglas = "CorsReglas";
+
+builder.Services.AddCors(op =>
+{
+    op.AddPolicy(name: corsReglas, builder =>
+    {
+        //builder.WithOrigins(clientUrl);
+        builder.AllowAnyOrigin();
+        builder.WithHeaders();
+        builder.AllowAnyHeader();
+        builder.WithMethods();
+        builder.AllowAnyMethod();
+    });
+});
+
 builder.Services.AddTransient<IBookService, BookService>();
 builder.Services.AddTransient<ICartService, CartService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
@@ -34,6 +57,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// CORS
+app.UseCors(corsReglas);
 
 app.UseHttpsRedirection();
 
