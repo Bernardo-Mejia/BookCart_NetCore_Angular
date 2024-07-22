@@ -7,5 +7,39 @@
     </div>
 
     <span class="spacer"></span>
+
+    <button
+      mat-icon-button
+      [routerLinkActive]="['link-active']"
+      [routerLink]="['/shopping-cart']"
+    >
+      <mat-icon matBadge="{{ cartItemCount }}" matBadgeColor="warn"
+        >shopping_cart</mat-icon
+      >
+    </button>
+
+    <button
+      mat-icon-button
+      [routerLinkActive]="['link-active']"
+      [routerLink]="['/wishlist']"
+    >
+      <mat-icon matBadgeColor="warn">favorite</mat-icon>
+    </button>
+
+    <button
+      mat-button
+      *ngIf="!userData.isLoggedIn"
+      [routerLinkActive]="['link-active']"
+      [routerLink]="['/auth/login']"
+    >
+      Login
+    </button>
+    <button
+      mat-button
+      *ngIf="userData.userTypeId == userType.admin"
+      [routerLink]="['/admin/books']"
+    >
+      Admin Panel
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
