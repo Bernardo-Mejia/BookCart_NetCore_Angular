@@ -27,5 +27,29 @@ namespace BookCart.Server.Controllers
         {
             return await Task.FromResult(_bookService.GetCategories());
         }
+
+        [HttpGet("{idBook}")]
+        public async Task<IActionResult> GetBookDetail(int idBook)
+        {
+            Book book = await Task.FromResult(_bookService.GetBookData(idBook));
+            if(book != null)
+            {
+                return Ok(book);
+            }
+            return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<Book>> GetAllBooks()
+        {
+            return await Task.FromResult(this._bookService.GetAllBooks());
+        }
+
+        [HttpGet]
+        [Route("GetBookDetails/{idBook}")]
+        public async Task<Book> GetBookDetails(int idBook)
+        {
+            return await Task.FromResult(_bookService.GetBookData(idBook));
+        }
     }
 }
