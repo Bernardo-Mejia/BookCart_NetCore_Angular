@@ -1,8 +1,12 @@
 using BookCart.Server.Common;
 using BookCart.Server.Context;
+using BookCart.Server.Models.Security;
 using BookCart.Server.Services.DataAccess;
 using BookCart.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +50,32 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IWishlistService, WishlistService>();
 
+// JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecreyKey"]!)),
+        ClockSkew = TimeSpan.Zero,
+    };
+
+    builder.Services.AddCors();
+});
+
+builder.Services.AddAuthorization(config =>
+{
+    config.AddPolicy(UserRoles.Admin, Policies.AdminPolicy());
+    config.AddPolicy(UserRoles.User, Policies.UserPolicy());
+});
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -62,6 +92,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors(corsReglas);
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

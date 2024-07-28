@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { IUser } from '../../../home/interfaces/IUser.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     // private cartService: CartService,
-    // private authenticationService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     // private subscriptionService: SubscriptionService,
     // private wishlistService: WishlistService
   ) { }

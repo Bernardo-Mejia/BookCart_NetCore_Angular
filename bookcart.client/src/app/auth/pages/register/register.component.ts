@@ -2,6 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { catchError, Subject, tap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -9,8 +11,10 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnDestroy {
+  private unsubscribe$ = new Subject<void>();
+
   constructor(
-    // private userService: UserService,
+    private userService: UserService,
     private router: Router,
     private fb: FormBuilder,
     private snackBarService: MatSnackBar // private customValidation: CustomValidationService
@@ -56,23 +60,61 @@ export class RegisterComponent implements OnDestroy {
   }
 
   registerUser() {
+    /*
     if (this.registrationForm.valid) {
-      /*
-      this.userService.registerUser(this.registrationForm.value)
+      this.userService
+        .registerUser(this.registrationForm.value)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           () => {
             this.router.navigate(['/login']);
-          }, error => {
+          },
+          (error) => {
             this.snackBarService.showSnackBar('Error occurred!! Try again');
             console.log('Error ocurred while adding book data : ', error);
+          }
+        );
+    }
+    */
+
+    /*
+    if (this.registrationForm.valid) {
+      this.userService.registerUser(this.registrationForm.value).pipe(
+        tap(() => {
+          this.router.navigate(['/auth/login'])
+        }),
+        catchError((error) => {
+          console.log(error)
+          return throwError(error)
+        })
+      ).subscribe()
+    }
+    */
+
+    if (this.registrationForm.valid) {
+      console.log(this.registrationForm.value);
+      this.userService.registerUser(this.registrationForm.value).subscribe({
+        next: (response) => {
+          this.snackBarService.open(
+            'User registred successfully. Please, Log on',
+            'Ok',
+            {
+              duration: 2703,
+            }
+          );
+          this.router.navigate(['/auth/login']);
+        },
+        error: (error) => {
+          this.snackBarService.open(error.message, 'Ok', {
+            duration: 2703,
           });
-          */
+        },
+      });
     }
   }
 
   ngOnDestroy() {
-    // this.unsubscribe$.next();
-    // this.unsubscribe$.complete();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
