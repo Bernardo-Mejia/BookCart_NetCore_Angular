@@ -1,4 +1,5 @@
-﻿using BookCart.Server.Models;
+﻿using BookCart.Server.Dto;
+using BookCart.Server.Models;
 
 namespace BookCart.Server.Services.Interfaces
 {
@@ -11,7 +12,7 @@ namespace BookCart.Server.Services.Interfaces
         string DeleteBook(int bookId);
         List<Category> GetCategories();
         List<Book> GetSimilarBooks(int bookId);
-        //List<CartItemDto> GetBooksAvailableInCart(string cartId);
         List<Book> GetBooksAvailableInWishlist(string wishlistID);
+        List<CartItemDto> GetBooksAvailableInCart(string cartID);
     }
 }

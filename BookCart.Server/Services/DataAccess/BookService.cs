@@ -1,4 +1,5 @@
 ﻿using BookCart.Server.Context;
+using BookCart.Server.Dto;
 using BookCart.Server.Models;
 using BookCart.Server.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -173,5 +174,30 @@ namespace BookCart.Server.Services.DataAccess
             }
         }
 
+        public List<CartItemDto> GetBooksAvailableInCart(string cartID)
+        {
+            try
+            {
+                List<CartItemDto> cartItemList = new List<CartItemDto>();
+                List<CartItem> cartItems = _dbContext.CartItems.Where(x => x.CartId == cartID).ToList();
+
+                foreach (CartItem item in cartItems)
+                {
+                    Book book = GetBookData(item.ProductId);
+                    CartItemDto objCartItem = new CartItemDto
+                    {
+                        Book = book,
+                        Quantity = item.Quantity
+                    };
+
+                    cartItemList.Add(objCartItem);
+                }
+                return cartItemList;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

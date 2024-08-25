@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  baseURL: string = 'https://localhost:7186/api/user';
+  baseURL: string = 'https://localhost:7186/api/User';
+  cartItemcount$ = new Subject<any>();
 
   constructor(private http: HttpClient) {}
 

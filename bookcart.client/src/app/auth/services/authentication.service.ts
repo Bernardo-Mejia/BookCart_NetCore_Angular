@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { map } from 'rxjs';
 import { IUser, IUserDetail } from '../../home/interfaces/IUser.interface';
+import { SubscriptionService } from './subscription.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,17 +11,21 @@ import { IUser, IUserDetail } from '../../home/interfaces/IUser.interface';
 export class AuthenticationService {
   oldUserId: string = '';
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+    private subscriptionService: SubscriptionService
+  ) {}
 
   login(user: any) {
-    return this.http.post<any>('/api/login', user).pipe(
+    return this.http.post<any>('https://localhost:7186/api/Login', user).pipe(
       map((response: any) => {
         if (response && response.token) {
           this.oldUserId = localStorage.getItem('userId')!;
           localStorage.setItem('authToken', response.token);
           this.setUserDetails();
           localStorage.setItem('userId', response.userDetails.userId);
-          // this.userService.cartItemcount$.next(response.carItemCount);
+          this.userService.cartItemcount$.next(response.carItemCount);
         }
         return response;
       })
@@ -39,12 +44,13 @@ export class AuthenticationService {
         isLoggedIn: true,
       };
 
-      // this.subscriptionService.userData.next(userDetails);
+      this.subscriptionService.userData.next(userDetails);
     }
   }
 
   logout() {
     localStorage.clear();
+    this.subscriptionService.userData.next(new IUser());
     this.resetSubscription();
     this.setTempUserId();
   }
