@@ -35,6 +35,7 @@ export class NavBarComponent implements OnDestroy {
       .asObservable()
       .subscribe((data: IUser) => {
         this.userData = data;
+        console.log("USER DATA", this.userData)
       });
 
     this.userId = Number(localStorage.getItem('userId')!);
